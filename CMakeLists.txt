@@ -14,8 +14,9 @@ set(Aquila_VERSION "${Aquila_VERSION_MAJOR}.${Aquila_VERSION_MINOR}.${Aquila_VER
 #
 ################################################################################
 
-option(Aquila_BUILD_EXAMPLES "Build example programs?" ON)
-option(Aquila_BUILD_TESTS "Build test programs?" ON)
+option(Aquila_BUILD_EXAMPLES "Build example programs?" OFF)
+option(Aquila_BUILD_TESTS "Build test programs?" OFF)
+option(Aquila_CODE_COVERAGE "Build with code coverage enabled for Debug?" OFF)
 
 ################################################################################
 #
@@ -168,7 +169,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     endif()
 endif()
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+if(Aquila_CODE_COVERAGE AND "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -Wall -Wextra -Wcast-qual -Wcast-align -Wno-unused-parameter -Wmissing-include-dirs -Wpointer-arith -Wredundant-decls -Wshadow -fprofile-arcs -ftest-coverage")
     include(CodeCoverage)
     setup_target_for_coverage(coverage aquila_test htmlcov)
